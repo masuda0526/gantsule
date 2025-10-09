@@ -1,0 +1,39 @@
+{
+  "name": "React Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+    // "args": { "VARIANT": "20-bullseye" }
+  },
+  // "runArgs": ["--init"],
+  "mounts": [
+    "source=devcontainer_node_modules,target=/workspace/node_modules,type=volume"
+  ],
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  // "remoteUser": "node",
+  "containerEnv": {
+    "TZ": "Asia/Tokyo"
+    // "NODE_ENV": "development",
+    // "CHOKIDAR_USEPOLLING": "true"
+  },
+  // "settings": {
+  //   "terminal.integrated.shell.linux": "/bin/bash",
+  //   "editor.formatOnSave": true
+  // },
+  // "customizations": {
+  //   "vscode": {
+  //     "extensions": [
+  //       "esbenp.prettier-vscode",
+  //       "dbaeumer.vscode-eslint",
+  //       "ms-vsliveshare.vsliveshare" 
+  //     ]
+  //   }
+  // },
+  // "postCreateCommand": "npm ci",
+  // "postStartCommand": "echo 'Container started — run npm run dev to start dev server'",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": { "label": "Vite dev server" }
+  }
+}
