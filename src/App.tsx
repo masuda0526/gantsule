@@ -4,12 +4,14 @@
 import './App.css'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import List from './list/List'
+import Header from './component/common/header/Header'
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
     <>
+      <Header></Header>
       <HashRouter>
         <Routes>
           <Route path='/' element={<div>TopPage coming soon...</div>} />
