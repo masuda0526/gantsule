@@ -1,6 +1,6 @@
 import type Project from "../interface/Project";
 
-export const projects: Project[] = [
+export const testProjects: Project[] = [
   {
     name: "ECサイト開発",
     startDt: "2025-01-10",
