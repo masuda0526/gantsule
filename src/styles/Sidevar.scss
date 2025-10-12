@@ -7,8 +7,9 @@
     box-sizing: border-box;
     width: 20%;
     min-height: 100vh;
-    padding: 10px;
+    padding: 15px;
     position: relative;
+    transition: all 0.5s;
 
     // モバイルでは非表示にする
     @include resposive(mobile){
@@ -17,17 +18,22 @@
     
     &.close{
       width:28px;
+      transition: all 0.5s;
     }
   }
 }
 
 .btn-toggle{
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
   border: 1px solid #000;
   background-color: #fff;
   position: absolute;
-  right: -25px;
+  right: -15px;
   top: 20px;
+  &:hover{
+    cursor: pointer;
+    background-color: #bccafe;
+  }
 }

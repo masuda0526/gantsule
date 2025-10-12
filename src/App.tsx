@@ -7,14 +7,8 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import List from './list/List'
 import Header from './component/common/header/Header'
 import Sidebar from './component/common/sidebar/Sidebar'
-import { useState } from 'react'
 
 function App() {
-  // const [count, setCount] = useState(0)
-  // const [isShowSidebar, setIsShowSidebar] = useState<boolean>(true);
-  // const handleClick = ()=>{
-  //   setIsShowSidebar(!isShowSidebar);
-  // }
 
   return (
     <div className='wrapper'>
