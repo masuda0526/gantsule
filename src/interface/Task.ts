@@ -1,4 +1,5 @@
 export default interface Task{
+  taskId:string,
   subjectId:string,
   name:string,
   startDt:string,

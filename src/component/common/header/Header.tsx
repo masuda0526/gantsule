@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { mobileWidth } from "../../../constants/Setting";
 
 const Header: React.FC = () => {
   // モバイルの境界値
-  const border = 768;
+  const border = mobileWidth;
 
   // モバイルかどうか判定するフラグ
   const [dispWidth, setDisplayWidth] = useState<number>(window.innerWidth);
