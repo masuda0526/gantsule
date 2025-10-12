@@ -8,7 +8,7 @@ const List:React.FC = () => {
   const projects:Project[] = testProjects;
 
   return (
-    <div>
+    <div className="list-container">
     {projects.map(pj => <ProjectItem key={pj.projectId} {...pj}/>)}
     </div>
   )

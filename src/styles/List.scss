@@ -1,5 +1,14 @@
+.list-container{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
 .subject-container{
+  display: grid;
+  font-size: 14px;
   padding: 15px;
+  box-sizing: border-box;
   .has-probrem{
     color: #f33a3a;
   }

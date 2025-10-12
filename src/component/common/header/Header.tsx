@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   // モバイルかどうか判定するフラグ
   const [dispWidth, setDisplayWidth] = useState<number>(window.innerWidth);
 
-  const isMobile = dispWidth < border;
+  const isMobile = dispWidth <= border;
 
   // マウント時にウィンドウサイズ変更を検知するイベントリスナー
   useEffect(() => {
@@ -33,7 +33,6 @@ const Header: React.FC = () => {
 
   const handleClickHum = () => {
     setIsActiveMenu(!isActiveMenu);
-    console.log(isActiveMenu)
   }
 
   const icon = isActiveMenu?(<FontAwesomeIcon icon={faXmark} onClick={handleClickHum}/>):(<FontAwesomeIcon icon={faBars} onClick={handleClickHum}/>)

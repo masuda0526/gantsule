@@ -34,7 +34,6 @@ const Sidebar: React.FC = () => {
   // ハッシュ値が変更されたときに呼び出される関数
   const handleHashChange = () => {
     setShowSidebarFlg(isContainRoute(urlShowSidebar))
-    console.log('change hash')
   }
 
   // ハッシュ値の変更を監視
