@@ -2,7 +2,7 @@ import type React from "react";
 import '../../../styles/Sidevar.scss'
 import { useEffect, useState } from "react";
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<{ showSidebar: boolean}> = (props) => {
 
   // サイドバーの開閉状態
   const [isClose, setIsClose] = useState<boolean>(false);
@@ -13,26 +13,33 @@ const Sidebar: React.FC = () => {
     setIsClose(!isClose);
   }
 
-  useEffect(()=>{
-    let delayTime:number;
-    if(isClose){
-      delayTime=0; // 閉じるときはすぐに消える
-    }else{
-      delayTime=350; // 開く時は開き切るまで少しタイムラグを持たせて表示
+  useEffect(() => {
+    let delayTime: number;
+    if (isClose) {
+      delayTime = 0; // 閉じるときはすぐに消える
+    } else {
+      delayTime = 350; // 開く時は開き切るまで少しタイムラグを持たせて表示
     }
-    setTimeout(()=>{setShowContent(!isClose)}, delayTime)
+    setTimeout(() => { setShowContent(!isClose) }, delayTime)
   }, [isClose])
 
   return (
-    <div className={isClose ? 'sidebar-area close' : 'sidebar-area'} >
-      <button className="btn-toggle" onClick={handleClick}>{isClose?'＞':'＜'}</button>
-      {isShowContent ? (
-        <div className="sidebar-content">
-          sidebar comingsoon...
-        </div>
+    <>
+      {
+        props.showSidebar ? (
+          <div className={isClose ? 'sidebar-area close' : 'sidebar-area'} >
+            <button className="btn-toggle" onClick={handleClick}>{isClose ? '＞' : '＜'}</button>
+            {isShowContent ? (
+              <div className="sidebar-content">
+                sidebar comingsoon...
+              </div>
 
-      ):''}
-    </div>
+            ) : ''}
+          </div>
+
+        ) : ''
+      }
+    </>
   )
 }
 
