@@ -1,12 +1,20 @@
 @use './variables' as *;
+@use './Mixin.scss' as *;
 
 .sidebar{
   &-area{
     background-color: $secondary-color;
+    box-sizing: border-box;
     width: 20%;
     min-height: 100vh;
+    padding: 10px;
     position: relative;
 
+    // モバイルでは非表示にする
+    @include resposive(mobile){
+      display: none;
+    }
+    
     &.close{
       width:28px;
     }
