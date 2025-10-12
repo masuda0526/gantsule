@@ -1,7 +1,4 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
+import './styles/Reset.scss'
 import './styles/Layout.scss'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import List from './list/List'

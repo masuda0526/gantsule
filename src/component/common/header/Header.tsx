@@ -44,11 +44,11 @@ const Header: React.FC = () => {
       {isMobile ? icon : '' }
       <nav className={isActiveMenu?"is-active":""}>
         <ul>
-          <li>TOP</li>
+          <li><a href="#">TOP</a></li>
+          <li><a href="#/list">プロジェクト一覧</a></li>
+          <li><a href="#/chart">ガントチャート</a></li>
           <li>MENU1</li>
           <li>MENU2</li>
-          <li>MENU3</li>
-          <li>MENU4</li>
         </ul>
       </nav>
     </header>

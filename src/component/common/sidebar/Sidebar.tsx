@@ -6,15 +6,7 @@ import { isContainRoute } from "../../../util/HashOperate";
 const Sidebar: React.FC = () => {
 
   // サイドばーを表示したいページのハッシュ値を追記
-  const urlShowSidebar : string[] = ['#/chart']
-
-  // サイドばーを表示するかどうか
-  const [isShowSidebar, setShowSidebarFlg] = useState<boolean>(isContainRoute(urlShowSidebar));
-
-  // ハッシュ値が変更されたときに呼び出される関数
-  const handleHashChange = ()=>{
-    setShowSidebarFlg(isContainRoute(urlShowSidebar))
-  }
+  const urlShowSidebar: string[] = ['#/chart']
 
   // サイドバーの開閉状態
   const [isClose, setIsClose] = useState<boolean>(false);
@@ -25,6 +17,7 @@ const Sidebar: React.FC = () => {
     setIsClose(!isClose);
   }
 
+  // サイドバー内のコンテンツの表示を監視
   useEffect(() => {
     let delayTime: number;
     if (isClose) {
@@ -35,26 +28,36 @@ const Sidebar: React.FC = () => {
     setTimeout(() => { setShowContent(!isClose) }, delayTime)
   }, [isClose])
 
+  // サイドばーを表示するかどうか
+  const [isShowSidebar, setShowSidebarFlg] = useState<boolean>(isContainRoute(urlShowSidebar));
+
+  // ハッシュ値が変更されたときに呼び出される関数
+  const handleHashChange = () => {
+    setShowSidebarFlg(isContainRoute(urlShowSidebar))
+    console.log('change hash')
+  }
+
   // ハッシュ値の変更を監視
-  useEffect(()=>{
+  useEffect(() => {
     window.addEventListener('hashchange', handleHashChange);
-    return window.removeEventListener('hashchange', handleHashChange)
+    return () =>{window.removeEventListener('hashchange', handleHashChange)}
   }, [])
 
   return (
     <>
       {
+        // サイドバーを表示するか
         isShowSidebar ? (
           <div className={isClose ? 'sidebar-area close' : 'sidebar-area'} >
             <button className="btn-toggle" onClick={handleClick}>{isClose ? '＞' : '＜'}</button>
-            {isShowContent ? (
-              <div className="sidebar-content">
-                sidebar comingsoon...
-              </div>
-
-            ) : ''}
+            {
+              // コンテンツの表示するか
+              isShowContent ? (
+                <div className="sidebar-content">
+                  sidebar comingsoon...
+                </div>
+              ) : ''}
           </div>
-
         ) : ''
       }
     </>

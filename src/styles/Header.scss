@@ -18,6 +18,14 @@ header {
     }
   }
 
+  a{
+    color: #fff;
+    &:hover{
+      color: #ffcc40;
+      cursor: pointer;
+    }
+  }
+
   ul {
     display: flex;
 

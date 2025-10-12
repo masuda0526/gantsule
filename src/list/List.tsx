@@ -7,7 +7,6 @@ import '../styles/List.scss';
 const List:React.FC = () => {
   const projects:Project[] = testProjects;
 
-
   return (
     <div>
     {projects.map(pj => <ProjectItem key={pj.projectId} {...pj}/>)}
