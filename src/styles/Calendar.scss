@@ -1,0 +1,18 @@
+table.calender {
+  display: table;
+  width: auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th,
+  td {
+    box-sizing: border-box;
+    border: solid 1px #333;
+  }
+
+  th.day {
+    min-width: 30px;
+    width: 30px;
+    height: 20px;
+  }
+}

@@ -4,6 +4,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import List from './list/List'
 import Header from './component/common/header/Header'
 import Sidebar from './component/common/sidebar/Sidebar'
+import Chart from './chart/Chart'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path='/' element={<div>TopPage coming soon...</div>} />
               <Route path='/list' element={<List></List>} />
+              <Route path='/chart' element={<Chart></Chart>} />
               <Route path='/test' element={<div>テストページです</div>} />
             </Routes>
           </HashRouter>
