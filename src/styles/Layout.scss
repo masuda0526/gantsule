@@ -1,9 +1,9 @@
 .wrapper{
   width: 100%;
+  box-sizing: 100%;
 }
 
 .content{
-  width: 100%;
   min-height: 100vh;
   display: flex;
   box-sizing: border-box;
@@ -11,6 +11,7 @@
 
 .main{
   width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   padding: 15px;
   box-sizing: border-box;

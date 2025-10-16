@@ -10,16 +10,22 @@ export interface CalenderObjectTransfer {
 }
 
 export interface year {
+  id:string
   val:string,
   months:month[]
 }
 
 export interface month{
+  id:string,
   val:string,
+  year:string,
   days:day[]
 }
 
 export interface day{
+  id:string,
+  year:string,
+  month:string,
   val:string,
   weekDt:number
 }
