@@ -1,0 +1,28 @@
+@use './variables.scss' as * ;
+
+.button-default{
+  border:1px solid #333;
+}
+
+.link-default{
+  text-decoration: none;
+  border:none;
+  background-color: #fff;
+  padding: 5px;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
+.button-box{
+  display: flex;
+  justify-content: space-between  
+}
+
+.link{
+  @extend .link-default;
+  color: #333;
+  &:hover{
+    color: $accent-color;
+  }
+}

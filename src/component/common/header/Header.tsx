@@ -35,6 +35,10 @@ const Header: React.FC = () => {
     setIsActiveMenu(!isActiveMenu);
   }
 
+  const handleClickMenu = () => {
+    setIsActiveMenu(false);
+  }
+
   const icon = isActiveMenu?(<FontAwesomeIcon icon={faXmark} onClick={handleClickHum}/>):(<FontAwesomeIcon icon={faBars} onClick={handleClickHum}/>)
 
   return (
@@ -43,9 +47,9 @@ const Header: React.FC = () => {
       {isMobile ? icon : '' }
       <nav className={isActiveMenu?"is-active":""}>
         <ul>
-          <li><a href="#">TOP</a></li>
-          <li><a href="#/list">プロジェクト一覧</a></li>
-          <li><a href="#/chart">ガントチャート</a></li>
+          <li><a href="#" onClick={handleClickMenu}>TOP</a></li>
+          <li><a href="#/list" onClick={handleClickMenu}>プロジェクト一覧</a></li>
+          <li><a href="#/chart" onClick={handleClickMenu}>ガントチャート</a></li>
           <li>MENU1</li>
           <li>MENU2</li>
         </ul>

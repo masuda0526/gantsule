@@ -13,11 +13,11 @@ const CalendarSubject:React.FC<{calObj:CalenderObjectTransfer, sj:Subject}> = ({
       <tr>
         <th className="task">{sj.name}</th>
         {convertToDayList(calObj).map(d => {
-          return <td key={d.id} className={createClassName(d, sj)}></td>
+          return <td key={`${sj.subjectId}-${d.id}`} className={createClassName(d, sj)}></td>
         })}
       </tr>
       {sj.tasks.map(t => {
-        return <CalendarTask key={sj.subjectId} calObj={calObj} task={t}></CalendarTask>
+        return <CalendarTask key={t.taskId} calObj={calObj} task={t}></CalendarTask>
       })}
       
     </>

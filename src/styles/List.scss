@@ -1,7 +1,12 @@
+@use './Mixin.scss' as * ;
+
 .list-container{
   display: grid;
   gap: 10px;
   grid-template-columns: 1fr 1fr;
+  @include resposive(mobile){
+    grid-template-columns: 1fr;
+  }
 }
 
 .subject-container{

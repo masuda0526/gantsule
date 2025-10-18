@@ -24,6 +24,7 @@ export interface month{
 
 export interface day{
   id:string,
+  str:string,
   year:string,
   month:string,
   val:string,

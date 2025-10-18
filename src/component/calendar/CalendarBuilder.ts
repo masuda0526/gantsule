@@ -84,6 +84,7 @@ export class CalendarBuilder {
   createDayObj(dt:Dayjs):day{
     return {
       id:this.createId('d', dt),
+      str:dt.format('YYYY-MM-DD'),
       year:dt.format('YYYY'),
       month:dt.format('M'),
       val:dt.format('D'),
