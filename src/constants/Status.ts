@@ -1,10 +1,10 @@
 
-interface StatusItem {
+export interface StatusItem {
   value:string,
   display:string,  
 }
 
-type StatusKey = "NO_START"|"UNDER_TAKING"|"SUSPENDED"|"HAS_PROBREM"|"DONE";
+export type StatusKey = "NO_START"|"UNDER_TAKING"|"SUSPENDED"|"HAS_PROBREM"|"DONE";
 
 type Status = Record<StatusKey,StatusItem>;
 

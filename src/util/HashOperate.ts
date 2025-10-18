@@ -1,4 +1,5 @@
 const paramSeparator: string = '?'
+const ERROR_PAGE_URL = '/';
 
 /**
  * ハッシュ値を取得
@@ -41,6 +42,18 @@ export const getParam = (paramName: string): string => {
     return '';
   }
   const params = new URLSearchParams(url.split(paramSeparator)[1]);
-
   return params.get(paramName) || '';
+}
+
+export const go = (url:string) => {
+  window.location.href = url
+}
+
+export const goTop = () => {
+  window.location.href = '/';
+}
+
+export const goError = (msg:string) => {
+  console.error(msg);
+  window.location.href = ERROR_PAGE_URL;
 }

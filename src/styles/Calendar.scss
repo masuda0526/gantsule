@@ -1,3 +1,5 @@
+@use './variables.scss' as * ;
+
 .chart-content{
   overflow-x: scroll;
   width: 100%;
@@ -21,7 +23,9 @@ table.calender {
   .today{
     background-color: #ffda82;
   }
+
   th.task{
+    text-align: left;
     min-width: 150px;
     position: -webkit-sticky;
     position: sticky;
@@ -38,6 +42,20 @@ table.calender {
       border-right: 1px solid #000;
       background-color: #fff;
       z-index: -1;
+    }
+
+    .task-content{
+      padding-left: 2em;
+    }
+
+    .task-progress{
+      font-weight: 100;
+      .has-probrem{
+        color: $probrem-color;
+      }
+    }
+    .task-manager{
+      font-weight: 100;
     }
   }
 

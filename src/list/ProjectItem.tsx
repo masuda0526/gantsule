@@ -1,6 +1,7 @@
 import type React from "react";
 import type Project from "../interface/Project";
 import { PROGRESS_STATUS } from "../constants/Status";
+import { go } from "../util/HashOperate";
 
 const ProjectItem: React.FC<Project> = (project: Project) => {
   let taskCnt: number = 0;
@@ -33,10 +34,14 @@ const ProjectItem: React.FC<Project> = (project: Project) => {
   }
   // 表示用文章
   const trubleString = `※問題発生(${trubleCnt}件)`;
+  const handleClickLink = () => {
+    const chartUrl = `/#/chart?projectId=${project.projectId}`;
+    go(chartUrl);
+  }
 
   return (
     <div className="subject-container">
-      <h2 className="title">{project.name}</h2>
+      <h2 className="title" onClick={handleClickLink}>{project.name}</h2>
       <div className="info">
         <div className="perm">プロジェクト期間：{`${project.startDt} ~ ${project.endDt}`}</div>
         <div className="client">依頼者：{project.client}</div>
