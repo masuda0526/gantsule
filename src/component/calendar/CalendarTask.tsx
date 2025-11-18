@@ -7,8 +7,6 @@ import { getDispString, hasProbrem } from "../../util/StatusUtil";
 
 const CalendarTask: React.FC<{ calObj: CalenderObjectTransfer, task: Task }> = ({ calObj, task }) => {
 
-
-
   return (
     <>
       <tr>

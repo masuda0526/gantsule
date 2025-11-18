@@ -1,11 +1,24 @@
 import type React from "react";
-import { testProjects } from "../testdatas/TestProjects";
 import type Project from "../interface/Project";
 import ProjectItem from "./ProjectItem";
 import '../styles/List.scss';
+import axios from "axios";
+import { URL } from "../constants/Url";
+import { useEffect, useState } from "react";
 
 const List:React.FC = () => {
-  const projects:Project[] = testProjects;
+  const [projects, setProjects] = useState<Project[]>([])
+  const userId = 'u00001';
+  
+  useEffect(()=>{
+    const url = `${URL.GET_PROJECTS}?userId=${userId}`;
+    axios.get(url)
+    .then(res => {
+      setProjects(res.data.data.projects as Project[])
+    }).catch(err => {
+      console.log(err);
+    })
+  }, [])
 
   return (
     <div className="list-container">
