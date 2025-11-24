@@ -6,8 +6,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { mobileWidth } from "../../../constants/Setting";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../app/store";
+import { logout, setLoginInfo } from "../../../app/LoginInfoReducer";
 
 const Header: React.FC = () => {
+  // test
+  const isLogin = useSelector((state:RootState) => state.loginInfo.isLogin)
+  const dispatch = useDispatch<AppDispatch>();
+  const handleLogin = ()=>{
+    dispatch(setLoginInfo({isLogin:true, limitDt:'2025-11-12', token:'aaa', userId:'u00001'}));
+  }
+  const handleLogout = () => {
+    dispatch(logout())
+  }
+  // test
   // モバイルの境界値
   const border = mobileWidth;
 
@@ -50,7 +63,7 @@ const Header: React.FC = () => {
           <li><a href="#" onClick={handleClickMenu}>TOP</a></li>
           <li><a href="#/list" onClick={handleClickMenu}>プロジェクト一覧</a></li>
           <li><a href="#/chart" onClick={handleClickMenu}>ガントチャート</a></li>
-          <li>MENU1</li>
+          {isLogin?(<li onClick={handleLogout}>ログイン中</li>):(<li onClick={handleLogin}>未ログイン</li>)}
           <li>MENU2</li>
         </ul>
       </nav>

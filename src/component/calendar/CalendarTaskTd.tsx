@@ -5,23 +5,39 @@ import type { day } from "./CalenderInterface";
 import type Task from "../../interface/Task";
 import { createClassName } from "../../util/WeekDateUtil";
 import dayjs from "dayjs";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { updateTask } from "../../app/CurrentProjectReducer";
 
 const CalendarTaskTd: React.FC<{ dayObj: day, task: Task }> = ({ dayObj, task }) => {
+  // カレンダーコンテキスト取得
   const { taskId, setTaskId, startDt, endDt, resetAll, setSpan } = useCalendar();
+
+  // Reduxから取得
+  const dispatch = useAppDispatch();
+  const isEdit = useAppSelector(state => state.currentProject.isEdit);
 
   const [isSelect, setSelectFlg] = useState<boolean>(false);
 
   const handleDown = (dayObj: day, task: Task) => {
-    setTaskId(task.taskId);
-    setSpan(dayObj.str);
+    if(isEdit){
+      setTaskId(task.taskId);
+      setSpan(dayObj.str);
+    }
   }
 
   const handleEnter = (dayObj: day) => {
-    setSpan(dayObj.str);
+    if(isEdit){
+      setSpan(dayObj.str);
+    }
   }
 
   const handleUp = () => {
-    console.log('Drog Up');
+    const isNullCheck = startDt && endDt;
+    if(isEdit && isNullCheck){
+      dispatch(updateTask({
+        task:{...task, startDt:startDt.format('YYYY-MM-DD'), endDt:endDt.format('YYYY-MM-DD')}
+      }))
+    }
     resetAll();
   }
 

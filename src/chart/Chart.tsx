@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { CalendarProvider } from "../component/calendar/CalendarContext";
 import { getParam } from "../util/HashOperate";
 import { getProjectItem } from "../util/ProjectUtil";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { setSubjects } from "../app/CurrentProjectReducer";
 
 const Chart: React.FC = () => {
   // 前の月表示数
@@ -39,6 +41,15 @@ const Chart: React.FC = () => {
   // const project: Project = testProjects[1];
   const pjId = getParam('projectId');
   const project : Project = getProjectItem(pjId);
+  const dispatch = useAppDispatch();
+
+  useEffect(()=>{
+    dispatch(setSubjects({
+      subjects:project.subjects
+    }))
+  }, [dispatch, project.subjects])
+
+  const subjects = useAppSelector(state => state.currentProject.currentProject.subjects);
   
   return (
     <CalendarProvider>
@@ -51,7 +62,7 @@ const Chart: React.FC = () => {
           <table className="calender">
             <tbody>
               <CalendarHeader calObj={calObj}></CalendarHeader>
-              {project.subjects.map(sj => {
+              {subjects.map(sj => {
                 return <CalendarSubject key={sj.subjectId} calObj={calObj} sj={sj}></CalendarSubject>
               })}
             </tbody>
