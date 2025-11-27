@@ -9,6 +9,8 @@ import { mobileWidth } from "../../../constants/Setting";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../app/store";
 import { logout, setLoginInfo } from "../../../app/LoginInfoReducer";
+import { hide, show, startLoading } from "../../../app/ModalReducer";
+import { MODAL_INFO } from "../../../constants/Modal";
 
 const Header: React.FC = () => {
   // test
@@ -19,6 +21,10 @@ const Header: React.FC = () => {
   }
   const handleLogout = () => {
     dispatch(logout())
+  }
+
+  const showModal = () => {
+    dispatch(startLoading())
   }
   // test
   // モバイルの境界値
@@ -64,7 +70,7 @@ const Header: React.FC = () => {
           <li><a href="#/list" onClick={handleClickMenu}>プロジェクト一覧</a></li>
           <li><a href="#/chart" onClick={handleClickMenu}>ガントチャート</a></li>
           {isLogin?(<li onClick={handleLogout}>ログイン中</li>):(<li onClick={handleLogin}>未ログイン</li>)}
-          <li>MENU2</li>
+          <li onClick={showModal}>モーダル</li>
         </ul>
       </nav>
     </header>
