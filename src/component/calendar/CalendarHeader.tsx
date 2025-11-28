@@ -4,12 +4,25 @@ import { calcDaysCountY, convertToDayList, convertToMonthList, createClassNameOf
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faToggleOff, faToggleOn } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { toggleEditMode } from "../../app/CurrentProjectReducer";
+import { toggleEditMode, updateSubject } from "../../app/CurrentProjectReducer";
+import { checkStatusUnderTasks } from "../../util/StatusUtil";
+import { AddSubjectBtn } from "./AddSubjectBtn";
 
 const CalendarHeader: React.FC<{ calObj: CalenderObjectTransfer }> = ({ calObj }) => {
   const dispatch = useAppDispatch()
   const isEdit = useAppSelector(state => state.currentProject.isEdit);
+  const subjects = useAppSelector(state => state.currentProject.currentProject.subjects);
+  
   const handleClickToggle = () => {
+    if(isEdit){
+      subjects.forEach(sj => {
+        const statusItem = checkStatusUnderTasks(sj.tasks);
+        // タスクの状況に応じてステータスを変更
+        if(statusItem.value !== sj.status){
+          dispatch(updateSubject({subject:{...sj, status:statusItem.value}}))
+        }
+      })
+    }
     dispatch(toggleEditMode());
   }
 
@@ -21,6 +34,7 @@ const CalendarHeader: React.FC<{ calObj: CalenderObjectTransfer }> = ({ calObj }
             <FontAwesomeIcon icon={isEdit ? faToggleOn : faToggleOff} onClick={handleClickToggle} />
             編集モード{isEdit?'ON':'OFF'}
           </div>
+          <AddSubjectBtn></AddSubjectBtn>
         </th>
         {calObj.years.map(y => {
           return (<th key={y.id} className="year" colSpan={calcDaysCountY(y)}>{y.val}年</th>)

@@ -18,14 +18,14 @@ const currentProjectReducer = createSlice({
   initialState,
   reducers:{
     setSubjects(state, action:PayloadAction<{subjects:Subject[]}>){
-      state.currentProject.subjects = action.payload.subjects
+      state.currentProject.subjects = [...action.payload.subjects]
     },
     addSubject(state, action:PayloadAction<{subject:Subject}>){
       state.currentProject.subjects.push(action.payload.subject);
     },
     updateSubject(state, action:PayloadAction<{subject:Subject}>){
       const target = action.payload.subject;
-      state.currentProject.subjects = state.currentProject.subjects.map(sj => sj.subjectId === target.subjectId?target:sj);
+      state.currentProject.subjects = state.currentProject.subjects.map(sj => sj.subjectId === target.subjectId?{...sj, ...target}:sj);
     },
     removeSubject(state, action:PayloadAction<{subject:Subject}>){
       state.currentProject.subjects = state.currentProject.subjects.filter(sj => sj.subjectId !== action.payload.subject.subjectId);
@@ -35,7 +35,7 @@ const currentProjectReducer = createSlice({
         const sjId = action.payload.tasks[0].subjectId;
         state.currentProject.subjects.forEach(sj => {
           if(sj.subjectId === sjId){
-            sj.tasks = action.payload.tasks;
+            sj.tasks = [...action.payload.tasks];
           }
         })
       }
@@ -52,7 +52,7 @@ const currentProjectReducer = createSlice({
       const target = action.payload.task;
       state.currentProject.subjects.forEach(sj => {
         if(sj.subjectId === target.subjectId){
-          sj.tasks = sj.tasks.map(tk => tk.taskId === target.taskId?target:tk);
+          sj.tasks = sj.tasks.map(tk => tk.taskId === target.taskId?{...tk, ...target}:tk);
         }
       })
     },

@@ -1,7 +1,7 @@
 export interface ModalVal {
   mode:string
 }
-type ModalKey = 'NONE'|'LOADING';
+type ModalKey = 'NONE'|'LOADING'|'ADD_SUBJECT';
 export type MODAL_TYPE = Record<ModalKey,ModalVal>
 
 export const MODAL_INFO:MODAL_TYPE = {
@@ -10,5 +10,8 @@ export const MODAL_INFO:MODAL_TYPE = {
   },
   LOADING:{
     mode:'LOADING'
+  },
+  ADD_SUBJECT:{
+    mode:'ADD_SUBJECT'
   }
 }
