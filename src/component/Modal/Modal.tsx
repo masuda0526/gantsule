@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { MODAL_INFO } from "../../constants/Modal";
 import { AddSubjectModal } from "./AddSubjectModal";
 import { hide } from "../../app/ModalReducer";
+import { AddTaskModal } from "./AddTaskModal";
 export const Modal: React.FC = () => {
   const dispatch = useAppDispatch();
   const isShow = useAppSelector(state => state.modalInfo.isShow);
@@ -20,6 +21,7 @@ export const Modal: React.FC = () => {
         <div className="modal" onClick={handleClick}>
           {modalType===MODAL_INFO.LOADING?(<Loading></Loading>):''}
           {modalType===MODAL_INFO.ADD_SUBJECT?(<AddSubjectModal></AddSubjectModal>):''}
+          {modalType===MODAL_INFO.ADD_TASK?(<AddTaskModal></AddTaskModal>):''}
         </div>
       ) : ''
       }

@@ -10,3 +10,15 @@ export const getProjectItem = (pjId:string):Project => {
   }
   return data;
 }
+
+export const createNewSubjectId = () => {
+  const l = 'abcdefghijklmnopqrstuvwxyz'
+  const len = 12;
+  const id = 'sj';
+  let rd = '';
+  for(let i = 0; i < len; i++){
+    const idx = Math.floor(Math.random() * l.length);
+    rd += l[idx];
+  }
+  return `${id}@${rd}`;
+}

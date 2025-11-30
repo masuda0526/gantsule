@@ -6,8 +6,11 @@ import { SubjectName } from "./parts/SubjectName";
 import { SubjectLeader } from "./parts/SubjectLeader";
 import { SubjectStatus } from "./parts/SubjectStatus";
 import { CalendarSubjectTdRow } from "./CalendarSubjectTdRow";
+import { useAppSelector } from "../../app/hook";
+import { AddTaskBtn } from "./AddTaskBtn";
 
 const CalendarSubject: React.FC<{ calObj: CalenderObjectTransfer, sj: Subject }> = ({ calObj, sj }) => {
+  const isEdit = useAppSelector(state => state.currentProject.isEdit);
 
   return (
     <>
@@ -18,6 +21,7 @@ const CalendarSubject: React.FC<{ calObj: CalenderObjectTransfer, sj: Subject }>
             <SubjectStatus subject={sj}></SubjectStatus>
             <SubjectLeader subject={sj}></SubjectLeader>
           </div>
+          {isEdit?(<AddTaskBtn subjectId={sj.subjectId}></AddTaskBtn>):''}
         </th>
         <CalendarSubjectTdRow calObj={calObj} subject={sj}></CalendarSubjectTdRow>
       </tr>
