@@ -10,6 +10,8 @@ import { PROGRESS_STATUS } from "../../constants/Status";
 import { useAppDispatch } from "../../app/hook";
 import { addSubject } from "../../app/CurrentProjectReducer";
 import { hide } from "../../app/ModalReducer";
+import { ValidationContext } from "../../util/validation/ValidationContext";
+import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
 
 export const AddSubjectModal : React.FC = () => {
   const dispacth = useAppDispatch()
@@ -21,7 +23,18 @@ export const AddSubjectModal : React.FC = () => {
   const handleChangeLeaderNm = (e:React.ChangeEvent<HTMLInputElement>) => {
     setLeaderName(e.target.value);
   }
+
+  // バリデーション構築
+  const vc = new ValidationContext();
+  vc.add(new ValidationBuilder('subjectName', subjectName, '課題名').require().txtmax(30));
+  vc.add(new ValidationBuilder('leader', leaderName, 'リーダー名').require().txtmax(30));
+
   const handleClick = () => {
+    vc.validate(false);
+    if(vc.isError()){
+      alert(vc.getErrorMsgsForAlert());
+      return 
+    }
     const newSubject:Subject = {
       subjectId:createNewSubjectId(),
       name:subjectName,

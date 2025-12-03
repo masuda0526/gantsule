@@ -11,6 +11,8 @@ import type Task from "../../interface/Task";
 import { PROGRESS_STATUS } from "../../constants/Status";
 import { createNewSubjectId } from "../../util/ProjectUtil";
 import { addTask } from "../../app/CurrentProjectReducer";
+import { ValidationContext } from "../../util/validation/ValidationContext";
+import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
 
 export const AddTaskModal:React.FC = () => {
   // Reduxから取得
@@ -19,8 +21,19 @@ export const AddTaskModal:React.FC = () => {
   const [taskName, setTaskName] = useState<string>('');
   const [managerName, setManagerName] = useState<string>('');
 
+  // バリデーション構築
+  const vc = new ValidationContext();
+  vc.add(new ValidationBuilder('taskName', taskName, 'タスク名').require().txtmax(30));
+  vc.add(new ValidationBuilder('maneger', managerName, '担当者名').require().txtmax(30));
+
   // 追加ボタン
   const handleClick = () => {
+    vc.validate(false);
+    if(vc.isError()){
+      alert(vc.getErrorMsgsForAlert());
+      return;
+    }
+
     const subjectId = tmpStore.get('subjectId');
     const task:Task = {
       subjectId:subjectId,
@@ -55,7 +68,7 @@ export const AddTaskModal:React.FC = () => {
       ></TextInput>
       
       <TextInput 
-        title="担当者" 
+        title="担当者名" 
         value={managerName} 
         field="maneger" 
         onChange={handleChangeManagerName} 

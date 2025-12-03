@@ -11,7 +11,7 @@ export const ButtonArea:React.FC<{children:React.ReactNode, option?:Option}> = (
   } = option || {}
   
   return (
-    <div style={{display:'flex', justifyContent:getPositionStyleString(position)}}>
+    <div className="btn-area" style={{display:'flex', justifyContent:getPositionStyleString(position)}}>
       {children}
     </div>
   )
