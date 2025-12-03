@@ -2,8 +2,14 @@ import type React from "react";
 import type Project from "../interface/Project";
 import { PROGRESS_STATUS } from "../constants/Status";
 import { go } from "../util/HashOperate";
+import { useAppDispatch } from "../app/hook";
+import { startLoading } from "../app/ModalReducer";
+import { setProject } from "../app/CurrentProjectReducer";
 
 const ProjectItem: React.FC<Project> = (project: Project) => {
+  // redux
+  const dispatch = useAppDispatch();
+
   let taskCnt: number = 0;
   let doneCnt: number = 0;
   let trubleCnt: number = 0;
@@ -35,6 +41,8 @@ const ProjectItem: React.FC<Project> = (project: Project) => {
   // 表示用文章
   const trubleString = `※問題発生(${trubleCnt}件)`;
   const handleClickLink = () => {
+    dispatch(startLoading());
+    dispatch(setProject({project}));
     const chartUrl = `/#/chart?projectId=${project.projectId}`;
     go(chartUrl);
   }

@@ -37,8 +37,8 @@ export const AddSubjectModal : React.FC = () => {
   return (
     <ModalBase title="課題を追加する">
       <div>
-        <TextInput title="課題名" value={subjectName} onChange={handleChangeSjName}></TextInput>
-        <TextInput title="リーダー名" value={leaderName} onChange={handleChangeLeaderNm}></TextInput> 
+        <TextInput title="課題名" value={subjectName} field="subjectName" onChange={handleChangeSjName} option={{validRules:'require|txtmax:30'}}></TextInput>
+        <TextInput title="リーダー名" value={leaderName} field="leader" onChange={handleChangeLeaderNm} option={{validRules:'require|txtmax:30'}}></TextInput> 
         <ButtonArea option={{position:'right'}}>
           <Button label="追加する" onClick={handleClick}></Button>
         </ButtonArea>

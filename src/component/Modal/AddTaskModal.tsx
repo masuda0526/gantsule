@@ -45,11 +45,27 @@ export const AddTaskModal:React.FC = () => {
 
   return (
     <ModalBase title="タスクを追加する">
-      <TextInput title="タスク名" value={taskName} onChange={handleChangeTaskName}></TextInput>
-      <TextInput title="担当者" value={managerName} onChange={handleChangeManagerName}></TextInput>
+
+      <TextInput 
+        title="タスク名" 
+        value={taskName} 
+        field="taskName" 
+        onChange={handleChangeTaskName} 
+        option={{validRules:'require|txtmax:30'}}
+      ></TextInput>
+      
+      <TextInput 
+        title="担当者" 
+        value={managerName} 
+        field="maneger" 
+        onChange={handleChangeManagerName} 
+        option={{validRules:'require|txtmax:30'}}
+      ></TextInput>
+      
       <ButtonArea option={{position:'center'}}>
         <Button label="追加する" onClick={handleClick} ></Button>
       </ButtonArea>
+
     </ModalBase>
   )
 }

@@ -1,3 +1,6 @@
+import { endLoading } from "../app/ModalReducer";
+import { store } from "../app/store";
+
 const paramSeparator: string = '?'
 const ERROR_PAGE_URL = '/';
 
@@ -56,4 +59,5 @@ export const goTop = () => {
 export const goError = (msg:string) => {
   console.error(msg);
   window.location.href = ERROR_PAGE_URL;
+  store.dispatch(endLoading());
 }

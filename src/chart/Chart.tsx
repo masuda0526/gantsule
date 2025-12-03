@@ -4,18 +4,23 @@ import '../styles/index.scss'
 import { CalendarBuilder } from "../component/calendar/CalendarBuilder";
 import type { CalenderObjectTransfer } from "../component/calendar/CalenderInterface";
 import CalendarHeader from "../component/calendar/CalendarHeader";
-import type Project from "../interface/Project";
 import CalendarSubject from "../component/calendar/CalendarSubject";
 import { useEffect, useState } from "react";
 import { CalendarProvider } from "../component/calendar/CalendarContext";
-import { getParam } from "../util/HashOperate";
-import { getProjectItem } from "../util/ProjectUtil";
+import { getParam, goError } from "../util/HashOperate";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { setSubjects } from "../app/CurrentProjectReducer";
+import axios from "axios";
+import { URL } from "../constants/Url";
+import type Subject from "../interface/Subject";
+import { endLoading } from "../app/ModalReducer";
 
 const Chart: React.FC = () => {
+  // Redux
+  const dispatch = useAppDispatch()
+
   // 前の月表示数
-  const [beforeMonth, setBeforeMonth] = useState<number>(1);
+  const [beforeMonth, setBeforeMonth] = useState<number>(0);
   // 後の月表示数
   const [afterMonth, setAfterMonth] = useState<number>(3);
   // カレンダービルダー
@@ -38,16 +43,29 @@ const Chart: React.FC = () => {
     setCalObj(cb.generate());
   }, [beforeMonth, afterMonth])
 
-  // const project: Project = testProjects[1];
-  const pjId = getParam('projectId');
-  const project : Project = getProjectItem(pjId);
-  const dispatch = useAppDispatch();
+  const getProjectInfo = () => {
+    const pjId = getParam('projectId');
+    
+    axios.get(`${URL.GET_PROJECT}?projectId=${pjId}`)
+    .then(res => {
+      console.log(res);
+      const isSuccess = res.data.isSuccess as boolean;
+      if(isSuccess){
+        const subjects = res.data.data.projectData as Subject[];
+        dispatch(setSubjects({subjects}));
+        dispatch(endLoading());
+      }else{
+        goError('取得失敗');
+      }
+    }).catch(error=> {
+      console.log(error);
+      goError('接続エラー');
+    })
+  }
 
-  useEffect(()=>{
-    dispatch(setSubjects({
-      subjects:project.subjects
-    }))
-  }, [dispatch, project.subjects])
+  useEffect(()=> {
+    getProjectInfo();
+  },[])
 
   const subjects = useAppSelector(state => state.currentProject.currentProject.subjects);
   

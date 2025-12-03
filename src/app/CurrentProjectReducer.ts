@@ -17,6 +17,9 @@ const currentProjectReducer = createSlice({
   name:'currentProject',
   initialState,
   reducers:{
+    setProject(state, action:PayloadAction<{project:Project}>){
+      state.currentProject = {...action.payload.project}
+    },
     setSubjects(state, action:PayloadAction<{subjects:Subject[]}>){
       state.currentProject.subjects = [...action.payload.subjects]
     },
@@ -71,6 +74,7 @@ const currentProjectReducer = createSlice({
 })
 
 export const {
+  setProject,
   setSubjects, 
   addSubject, 
   updateSubject, 
