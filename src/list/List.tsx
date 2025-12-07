@@ -15,7 +15,6 @@ const List:React.FC = () => {
     axios.get(url)
     .then(res => {
       setProjects(res.data.data.projects as Project[])
-
     }).catch(err => {
       console.log(err);
     })

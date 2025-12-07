@@ -1,12 +1,11 @@
 import { BaseValidationDecolator } from "../BaseValidationDecolator"
-import type { IValidator } from "../ValidationTypes"
 
 export class StringLengthBetweenValidator extends BaseValidationDecolator{
   message: string = `{attr}は{min}〜{max}文字で入力してください。`
   min:number;
   max:number;
-  constructor(decolator:IValidator, min:number, max:number){
-    super(decolator);
+  constructor(field:string, value:string, attr:string, min:number, max:number){
+    super(field, value, attr);
     this.min = min;
     this.max = max;
   }

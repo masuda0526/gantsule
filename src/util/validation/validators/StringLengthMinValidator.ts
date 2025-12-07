@@ -1,12 +1,11 @@
 import { BaseValidationDecolator } from "../BaseValidationDecolator";
-import type { IValidator } from "../ValidationTypes";
 
 export class StringLengthMinValidator extends BaseValidationDecolator{
   message: string = '{attr}は{min}文字以上で入力してください。'
   min:number;
 
-  constructor(decolator:IValidator, min:number){
-    super(decolator);
+  constructor(field:string, value:string, attr:string, min:number){
+    super(field, value, attr);
     this.min = min;
   }
 

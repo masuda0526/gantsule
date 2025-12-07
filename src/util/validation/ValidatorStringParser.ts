@@ -1,4 +1,5 @@
 import { ValidationBuilder } from "./ValidationBuilder";
+import type { DateFormat } from "./validators/DateFormatValidator";
 
 export class ValidatorStringParser {
   
@@ -37,6 +38,14 @@ export class ValidatorStringParser {
 
       if(vtype === 'txtbetween'){
         this.validationBuilder = this.validationBuilder.txtbetween(Number.parseInt(options[0]), Number.parseInt(options[1]))
+      }
+
+      if(vtype === 'dateformat'){
+        this.validationBuilder = this.validationBuilder.dateformat(options[0] as DateFormat);
+      }
+
+      if(vtype === 'existdate'){
+        this.validationBuilder = this.validationBuilder.existdate();
       }
     }
     return this.validationBuilder;

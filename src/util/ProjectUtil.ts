@@ -12,13 +12,19 @@ export const getProjectItem = (pjId:string):Project => {
 }
 
 export const createNewSubjectId = () => {
-  const l = 'abcdefghijklmnopqrstuvwxyz'
-  const len = 12;
-  const id = 'sj';
-  let rd = '';
+  return createRandomId(12, 's');
+}
+
+export const createNewTaskId = () => {
+  return createRandomId(12, 't');
+}
+
+export const createRandomId = (len:number, prefix?:string) => {
+  const l = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  let rdmValue = '';
   for(let i = 0; i < len; i++){
     const idx = Math.floor(Math.random() * l.length);
-    rd += l[idx];
+    rdmValue += l[idx];
   }
-  return `${id}@${rd}`;
+  return `${prefix}-${rdmValue}`;
 }

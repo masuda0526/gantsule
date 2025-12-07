@@ -1,11 +1,10 @@
 import { BaseValidationDecolator } from "../BaseValidationDecolator";
-import type { IValidator } from "../ValidationTypes";
 
 export class StringLengthMaxValidator extends BaseValidationDecolator{
   message: string = '{attr}は{max}文字以内で入力してください。';
   max:number
-  constructor(decolator:IValidator, max:number){
-    super(decolator);
+  constructor(field:string, value:string, attr:string, max:number){
+    super(field, value, attr);
     this.max = max;
   }
 

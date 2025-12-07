@@ -14,6 +14,7 @@ import axios from "axios";
 import { URL } from "../constants/Url";
 import type Subject from "../interface/Subject";
 import { endLoading } from "../app/ModalReducer";
+import { ProjectArea } from "./ProjectArea";
 
 const Chart: React.FC = () => {
   // Redux
@@ -72,6 +73,7 @@ const Chart: React.FC = () => {
   return (
     <CalendarProvider>
       <div>
+        <ProjectArea></ProjectArea>
         <div className="button-box">
           <button onClick={() => handleClick(true)} className="link">＜ 前へ</button>
           <button onClick={() => handleClick(false)} className="link">次へ ＞</button>

@@ -3,6 +3,8 @@ import type Task from "../../../interface/Task";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import { updateTask } from "../../../app/CurrentProjectReducer";
+import { ValidationContext } from "../../../util/validation/ValidationContext";
+import { ValidationBuilder } from "../../../util/validation/ValidationBuilder";
 
 export const TaskManager : React.FC<{task:Task}> = ({task}) => {
   // 編集モード監視
@@ -11,6 +13,11 @@ export const TaskManager : React.FC<{task:Task}> = ({task}) => {
   const dispatch = useAppDispatch();
   // 担当者名の状態監視
   const [localManager, setLocalManager] = useState<string>(task.manager);
+
+  // バリデーション構築
+  const vc = new ValidationContext();
+  vc.add(new ValidationBuilder('manager', localManager, '担当者名').require().txtmax(30));
+
   // 担当者名変更で発火
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setLocalManager(e.target.value);
@@ -18,6 +25,12 @@ export const TaskManager : React.FC<{task:Task}> = ({task}) => {
   // 担当者名のフォーカスが外れたら発火
   const handleBlur = () => {
     if(localManager !== task.manager){
+      vc.validate(false);
+      if(vc.isError()){
+        alert(vc.getErrorMsgsForAlert());
+        setLocalManager(task.manager); //　初期値へ戻す
+        return;
+      }
       dispatch(updateTask({task:{...task, manager:localManager}}));
     }
   }

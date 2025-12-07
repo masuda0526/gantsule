@@ -1,6 +1,7 @@
 import type { BaseValidationDecolator } from "./BaseValidationDecolator";
-import { BaseValidator } from "./BaseValidator";
 import type { ErrorInfo, IValidator } from "./ValidationTypes";
+import { DateFormatValidator, type DateFormat } from "./validators/DateFormatValidator";
+import { ExistDateValidator } from "./validators/ExistDateValidator";
 import { RequireValidator } from "./validators/RequireValidator";
 import { StringLengthBetweenValidator } from "./validators/StringLengthBetweenValidator";
 import { StringLengthMaxValidator } from "./validators/StringLengthMaxValidator";
@@ -11,23 +12,35 @@ export class ValidationBuilder{
   field:string;
   value:string;
   attr:string;
-  requireVaidator:IValidator;
-  attrValidator:IValidator;
+  requireVaidators:IValidator[];
+  attrValidators:IValidator[];
 
   constructor(field:string, value:string, attr:string){
     this.field = field;
     this.value = value;
     this.attr = attr;
-    const base = new BaseValidator(this.field, this.value, this.attr);
-    this.requireVaidator = base;
-    this.attrValidator = base;
+    // const base = new BaseValidator(this.field, this.value, this.attr);
+    this.requireVaidators = [];
+    this.attrValidators = [];
   }
 
   validate(errors:ErrorInfo[], onlyRequire:boolean){
-    this.requireVaidator.execute(errors);
+    this.requireValidate(errors);
     if(!onlyRequire && errors.length === 0){
-      this.attrValidator.execute(errors);
+      this.attrValidate(errors);
     }
+  }
+
+  requireValidate(errors:ErrorInfo[]){
+    this.requireVaidators.forEach(v => {
+      v.execute(errors);
+    })
+  }
+
+  attrValidate(errors:ErrorInfo[]){
+    this.attrValidators.forEach(v => {
+      v.execute(errors)
+    })
   }
 
   /////////////////////////
@@ -35,9 +48,9 @@ export class ValidationBuilder{
   /////////////////////////
 
   require(message?:string, ...texts:string[]){
-    const v = new RequireValidator(this.requireVaidator);
+    const v = new RequireValidator(this.field, this.value, this.attr);
     this.setMessage(v, message, ...texts);
-    this.requireVaidator = v
+    this.requireVaidators.push(v)
     return this;
   }
 
@@ -46,23 +59,37 @@ export class ValidationBuilder{
   // 属性チェック用
   /////////////////////////
   txtbetween(min:number, max:number, message?:string, ...texts:string[]){
-    const v = new StringLengthBetweenValidator(this.attrValidator, min, max);
+    const v = new StringLengthBetweenValidator(this.field, this.value, this.attr, min, max);
     this.setMessage(v, message, ...texts);
-    this.attrValidator = v;
+    this.attrValidators.push(v);
     return this;
   }
 
   txtmin(min:number, message?:string, ...texts:string[]){
-    const v = new StringLengthMinValidator(this.attrValidator, min);
+    const v = new StringLengthMinValidator(this.field, this.value, this.attr, min);
     this.setMessage(v, message, ...texts);
-    this.attrValidator = v;
+    this.attrValidators.push(v);
     return this;
   }
 
   txtmax(max:number, message?:string, ...texts:string[]){
-    const v = new StringLengthMaxValidator(this.attrValidator, max);
+    const v = new StringLengthMaxValidator(this.field, this.value, this.attr, max);
     this.setMessage(v, message, ...texts);
-    this.attrValidator = v;
+    this.attrValidators.push(v);
+    return this
+  }
+
+  dateformat(type:DateFormat, message?:string, ...texts:string[]){
+    const v = new DateFormatValidator(this.field, this.value, this.attr, type);
+    this.setMessage(v, message, ...texts);
+    this.attrValidators.push(v);
+    return this
+  }
+
+  existdate(message?:string, ...texts:string[]){
+    const v = new ExistDateValidator(this.field, this.value, this.attr);
+    this.setMessage(v, message, ...texts);
+    this.attrValidators.push(v);
     return this
   }
 

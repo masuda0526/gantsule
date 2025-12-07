@@ -2,15 +2,19 @@ import type { ErrorInfo, IValidator } from "./ValidationTypes";
 
 export abstract class BaseValidationDecolator implements IValidator{
   abstract message:string;
-  decolator:IValidator;
+  field;
+  value;
+  attr;
 
-  constructor(decolator:IValidator){
-    this.decolator = decolator;
+  constructor(field:string, value:string, attr:string){
+    this.field = field;
+    this.value = value;
+    this.attr = attr;
   }
 
-  get field(){ return this.decolator.field }
-  get value(){ return this.decolator.value }
-  get attr(){ return this.decolator.attr }
+  // get field(){ return this.decolator.field }
+  // get value(){ return this.decolator.value }
+  // get attr(){ return this.decolator.attr }
 
   abstract validate(): boolean ;
 
@@ -18,7 +22,6 @@ export abstract class BaseValidationDecolator implements IValidator{
     if(!this.validate()){
       errors.push(this.getError());
     }
-    return this.decolator.execute(errors);
   }
 
   getMessage():string{

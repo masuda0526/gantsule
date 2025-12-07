@@ -1,11 +1,10 @@
 import { BaseValidationDecolator } from "../BaseValidationDecolator";
-import type { IValidator } from "../ValidationTypes";
 
 export class RequireValidator extends BaseValidationDecolator{
   message: string = '{attr}は必須項目です。';
 
-  constructor(decolator:IValidator){
-    super(decolator);
+  constructor(field:string, value:string, attr:string){
+    super(field, value, attr);
   }
 
   validate(): boolean {
