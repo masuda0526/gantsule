@@ -12,8 +12,8 @@ export const ProjectArea : React.FC = () => {
         <EditToggleBtn></EditToggleBtn>
       </ButtonArea>
       <ProjectName project={project}></ProjectName>
-      <p>プロジェクト期間：2025-10-10 ~ 2025-11-11</p>
-      <p>依頼者：テスト株式会社</p>
+      <p>プロジェクト期間：{project.startDt} ~ {project.endDt}</p>
+      <p>依頼者：{project.client}</p>
     </div>
   )
 }

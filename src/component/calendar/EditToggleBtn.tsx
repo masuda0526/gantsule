@@ -37,10 +37,9 @@ export const EditToggleBtn: React.FC = () => {
         return 
       }
 
-      console.log(subjects);
-      axios.post(URL.POST_EDIT_SUBJECT, {
-        project
-      }).then(res => {
+      console.log(project);
+      axios.post(URL.POST_EDIT_SUBJECT, project)
+      .then(res => {
         console.log(res.data);
       }).catch(error => {
         console.log(error);

@@ -1,14 +1,24 @@
 import type React from "react";
 import { ModalBase } from "./ModalBase";
 import { TextInput } from "../Form/TextInput";
-import { useAppSelector } from "../../app/hook";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { ButtonArea } from "../Form/ButtonArea";
 import { Button } from "../Form/Button";
 import { useState } from "react";
+import axios from "axios";
+import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
+import { URL } from "../../constants/Url";
+import { endLoading, hide, show, startLoading } from "../../app/ModalReducer";
+import { setProject } from "../../app/CurrentProjectReducer";
+import { locale } from "dayjs";
+import { faDigitalTachograph } from "@fortawesome/free-solid-svg-icons";
+import type { ErrorInfo } from "../../util/validation/ValidationTypes";
+import { MODAL_INFO } from "../../constants/Modal";
 
 
 export const EditProjectModal : React.FC = () => {
   const project = useAppSelector(state => state.currentProject.currentProject);
+  const dispatch = useAppDispatch()
 
   const [localPjName, setLocalPjName] = useState<string>(project.name)
   const changeLocalPjName = (e:React.ChangeEvent<HTMLInputElement>) => {setLocalPjName(e.target.value)}
@@ -21,6 +31,39 @@ export const EditProjectModal : React.FC = () => {
 
   const [localClient, setLocalClient] = useState<string>(project.client);
   const changeLocalClient = (e:React.ChangeEvent<HTMLInputElement>) => (setLocalClient(e.target.value));
+
+  const handleClick = async() => {
+    startLoading()
+    await axios.post(URL.POST_EDIT_INFO, {
+      projectInfo:{
+        projectId:project.projectId,
+        name:localPjName,
+        client:localClient, 
+        startDt:localStDt,
+        endDt:localEdDt,
+      },
+      userId:'u00001'
+    }).then(res => {
+      const data = res.data
+      const isSucess:boolean = data.isSuccess;
+      if(isSucess){
+        dispatch(setProject({project:{...project, name:localPjName,client:localClient, startDt:localStDt, endDt:localEdDt}}))
+        const successMessages :string[] = data.flashMsgs;
+        alert(successMessages.join('¥n'));
+        dispatch(hide());
+      }else{
+        const errors:ErrorInfo[] = data.errors;
+        const msgs:string[] = errors.map(e => {
+          return e.message
+        });
+        alert(msgs.join('¥n'));
+        dispatch(show({modalType:MODAL_INFO.EDIT_PROJECT}))
+      }
+    }).catch(error => {
+      console.log(error);
+      dispatch(show({modalType:MODAL_INFO.EDIT_PROJECT}))
+    })
+  }
 
   return (
     <ModalBase title="プロジェクトを編集">
@@ -54,7 +97,7 @@ export const EditProjectModal : React.FC = () => {
           option={{validRules:'require|txtmax:30'}}
         ></TextInput>
         <ButtonArea>
-          <Button label="編集する"></Button>
+          <Button onClick={handleClick} label="編集する"></Button>
         </ButtonArea>
       </div>
     </ModalBase>

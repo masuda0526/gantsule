@@ -5,7 +5,6 @@ export class ExistDateValidator extends BaseValidationDecolator {
 
   constructor(field:string, value:string, attr:string) {
     super(field, value, attr);
-    console.log(this)
   }
 
   validate(): boolean {
