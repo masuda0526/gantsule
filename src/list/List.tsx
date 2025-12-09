@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { ButtonArea } from "../component/Form/ButtonArea";
 import { Button } from "../component/Form/Button";
 import { useAppDispatch, useAppSelector } from "../app/hook";
-import { show } from "../app/ModalReducer";
+import { endLoading, show, startLoading } from "../app/ModalReducer";
 import { MODAL_INFO } from "../constants/Modal";
 import { setProjectInfos } from "../app/ProjectInfosReducer";
 
@@ -25,6 +25,7 @@ const List: React.FC = () => {
   }
 
   useEffect(() => {
+    dispatch(startLoading())
     const url = `${URL.GET_PROJECTS}?userId=${userId}`;
     axios.get(url)
       .then(res => {
@@ -32,6 +33,7 @@ const List: React.FC = () => {
       }).catch(err => {
         console.log(err);
       })
+    dispatch(endLoading());
   }, [])
 
   return (
