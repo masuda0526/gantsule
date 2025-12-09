@@ -6,12 +6,9 @@ import { ButtonArea } from "../Form/ButtonArea";
 import { Button } from "../Form/Button";
 import { useState } from "react";
 import axios from "axios";
-import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
 import { URL } from "../../constants/Url";
-import { endLoading, hide, show, startLoading } from "../../app/ModalReducer";
+import { hide, show, startLoading } from "../../app/ModalReducer";
 import { setProject } from "../../app/CurrentProjectReducer";
-import { locale } from "dayjs";
-import { faDigitalTachograph } from "@fortawesome/free-solid-svg-icons";
 import type { ErrorInfo } from "../../util/validation/ValidationTypes";
 import { MODAL_INFO } from "../../constants/Modal";
 

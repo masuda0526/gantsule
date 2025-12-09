@@ -2,12 +2,14 @@ import {configureStore} from '@reduxjs/toolkit';
 import LoginInfoReducer from './LoginInfoReducer';
 import CurrentProjectReducer from './CurrentProjectReducer';
 import ModalInfoReducer from './ModalReducer';
+import ProjectInfosReducer from './ProjectInfosReducer'
 
 export const store = configureStore({
   reducer:{
     loginInfo:LoginInfoReducer,
     currentProject:CurrentProjectReducer,
-    modalInfo:ModalInfoReducer
+    modalInfo:ModalInfoReducer,
+    projectInfos:ProjectInfosReducer
   }
 })
 

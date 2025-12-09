@@ -1,15 +1,19 @@
 import type React from "react";
 import { ModalBase } from "./ModalBase";
 import { TextInput } from "../Form/TextInput";
-import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { useAppDispatch } from "../../app/hook";
 import { ButtonArea } from "../Form/ButtonArea";
 import { Button } from "../Form/Button";
 import { useState } from "react";
 import axios from "axios";
 import { URL } from "../../constants/Url";
-import { endLoading, hide, show, startLoading } from "../../app/ModalReducer";
+import { hide, show, startLoading } from "../../app/ModalReducer";
 import type { ErrorInfo } from "../../util/validation/ValidationTypes";
 import { MODAL_INFO } from "../../constants/Modal";
+import { ValidationContext } from "../../util/validation/ValidationContext";
+import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
+import { setProjectInfos } from "../../app/ProjectInfosReducer";
+import type Project from "../../interface/Project";
 
 
 export const NewProjectModal: React.FC = () => {
@@ -28,7 +32,28 @@ export const NewProjectModal: React.FC = () => {
   const changeLocalClient = (e: React.ChangeEvent<HTMLInputElement>) => (setLocalClient(e.target.value));
 
   const handleClick = async () => {
+    // 復元用
+    const tmpPjName = localPjName
+    const tmpStDt = localStDt
+    const tmpEdDt = localEdDt
+    const tmpClient = localClient
+
     dispatch(startLoading())
+
+    // バリデーション
+    const v = new ValidationContext();
+    v.add(new ValidationBuilder('name', localPjName, 'プロジェクト名').require().txtmax(30));
+    v.add(new ValidationBuilder('startDt', localStDt, 'プロジェクト開始日').require().existdate().dateformat('hypfen'))
+    v.add(new ValidationBuilder('endDt', localEdDt, 'プロジェクト終了日').require().existdate().dateformat('hypfen'))
+    v.add(new ValidationBuilder('client', localClient, '依頼者').require().txtmax(30));
+    v.validate(false);
+    if(v.isError()){
+      alert(v.getErrorMsgsForAlert());
+      dispatch(show({modalType:MODAL_INFO.NEW_PROJECT}));
+      return;
+    }
+
+    // 登録
     await axios.post(URL.POST_NEW_PROJECT, {
       userId: 'u00001',
       name: localPjName,
@@ -37,13 +62,16 @@ export const NewProjectModal: React.FC = () => {
       endDt: localEdDt,
     }).then(res => {
       const data = res.data
-      console.log(data)
       const isSucess: boolean = data.isSuccess;
+      // 成功
       if (isSucess) {
         const successMessages: string[] = data.flashMsgs;
         alert(successMessages.join('¥n'));
+        dispatch(setProjectInfos({projectInfos:data.data.projects as Project[]}))
         dispatch(hide());
+        return;
       } else {
+        // 失敗
         const errors: ErrorInfo[] = data.errors;
         const msgs: string[] = errors.map(e => {
           return e.message
@@ -55,6 +83,11 @@ export const NewProjectModal: React.FC = () => {
       console.log(error);
       dispatch(show({ modalType: MODAL_INFO.NEW_PROJECT }))
     })
+    // 失敗時に復元
+    setLocalClient(tmpClient)
+    setLocalPjName(tmpPjName)
+    setStDt(tmpStDt)
+    setEdDt(tmpEdDt)
   }
 
   return (
