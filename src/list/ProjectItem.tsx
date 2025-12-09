@@ -10,6 +10,7 @@ const ProjectItem: React.FC<Project> = (project: Project) => {
   // redux
   const dispatch = useAppDispatch();
 
+  const userId = 'u00001';
   let taskCnt: number = 0;
   let doneCnt: number = 0;
   let trubleCnt: number = 0;
@@ -43,7 +44,7 @@ const ProjectItem: React.FC<Project> = (project: Project) => {
   const handleClickLink = () => {
     dispatch(startLoading());
     dispatch(setProject({project}));
-    const chartUrl = `/#/chart?projectId=${project.projectId}`;
+    const chartUrl = `/#/chart?projectId=${project.projectId}&userId=${userId}`;
     go(chartUrl);
   }
 
