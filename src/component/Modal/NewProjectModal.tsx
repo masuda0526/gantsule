@@ -14,6 +14,7 @@ import { ValidationContext } from "../../util/validation/ValidationContext";
 import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
 import { setProjectInfos } from "../../app/ProjectInfosReducer";
 import type Project from "../../interface/Project";
+import { getParam } from "../../util/HashOperate";
 
 
 export const NewProjectModal: React.FC = () => {
@@ -55,7 +56,7 @@ export const NewProjectModal: React.FC = () => {
 
     // 登録
     await axios.post(URL.POST_NEW_PROJECT, {
-      userId: 'u00001',
+      userId: getParam('userId'),
       name: localPjName,
       client: localClient,
       startDt: localStDt,

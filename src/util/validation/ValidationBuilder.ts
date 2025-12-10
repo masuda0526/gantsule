@@ -1,6 +1,7 @@
 import type { BaseValidationDecolator } from "./BaseValidationDecolator";
 import type { ErrorInfo, IValidator } from "./ValidationTypes";
 import { DateFormatValidator, type DateFormat } from "./validators/DateFormatValidator";
+import { EmailValidator } from "./validators/EmailValidator";
 import { ExistDateValidator } from "./validators/ExistDateValidator";
 import { RequireValidator } from "./validators/RequireValidator";
 import { StringLengthBetweenValidator } from "./validators/StringLengthBetweenValidator";
@@ -88,6 +89,13 @@ export class ValidationBuilder{
 
   existdate(message?:string, ...texts:string[]){
     const v = new ExistDateValidator(this.field, this.value, this.attr);
+    this.setMessage(v, message, ...texts);
+    this.attrValidators.push(v);
+    return this
+  }
+
+  email(message?:string, ...texts:string[]){
+    const v = new EmailValidator(this.field, this.value, this.attr);
     this.setMessage(v, message, ...texts);
     this.attrValidators.push(v);
     return this

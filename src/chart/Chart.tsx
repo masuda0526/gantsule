@@ -55,11 +55,11 @@ const Chart: React.FC = () => {
         dispatch(setSubjects({subjects}));
         dispatch(endLoading());
       }else{
-        goError('取得失敗');
+        // goError('取得失敗');
       }
     }).catch(error=> {
       console.log(error);
-      goError('接続エラー');
+      // goError('接続エラー');
     })
   }
 

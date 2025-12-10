@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../app/hook";
 import { endLoading, show, startLoading } from "../app/ModalReducer";
 import { MODAL_INFO } from "../constants/Modal";
 import { setProjectInfos } from "../app/ProjectInfosReducer";
+import { getParam } from "../util/HashOperate";
 
 const List: React.FC = () => {
   // redux
@@ -18,7 +19,7 @@ const List: React.FC = () => {
   const projects = useAppSelector(state => state.projectInfos.projectInfos)
 
   // const [projects, setProjects] = useState<Project[]>([])
-  const userId = 'u00001';
+  const userId = getParam('userId');
 
   const handleClick = () => {
     dispatch(show({ modalType: MODAL_INFO.NEW_PROJECT }))

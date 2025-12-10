@@ -47,6 +47,10 @@ export class ValidatorStringParser {
       if(vtype === 'existdate'){
         this.validationBuilder = this.validationBuilder.existdate();
       }
+
+      if(vtype === 'email'){
+        this.validationBuilder = this.validationBuilder.email();
+      }
     }
     return this.validationBuilder;
   }

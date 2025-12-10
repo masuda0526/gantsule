@@ -6,6 +6,8 @@ import Header from './component/common/header/Header'
 import Sidebar from './component/common/sidebar/Sidebar'
 import Chart from './chart/Chart'
 import { Modal } from './component/Modal/Modal'
+import { Login } from './login/Login'
+import { Register } from './register/Register'
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
               <Route path='/' element={<div>TopPage coming soon...</div>} />
               <Route path='/list' element={<List></List>} />
               <Route path='/chart' element={<Chart></Chart>} />
+              <Route path='/login' element={<Login></Login>} />
+              <Route path='/register' element={<Register></Register>}></Route>
               <Route path='/test' element={<div>テストページです</div>} />
             </Routes>
           </HashRouter>
