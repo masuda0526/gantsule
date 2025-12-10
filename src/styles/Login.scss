@@ -1,0 +1,19 @@
+@use './variables' as *;
+@use './Mixin.scss' as *;
+
+.login-container{
+  width: 25%;
+  margin: 100px auto;
+  padding: 10px;
+  box-sizing: border-box;
+
+
+  @include resposive(mobile){
+    width: 100%;
+  }
+
+  h3{
+    text-align: center;
+
+  }
+}

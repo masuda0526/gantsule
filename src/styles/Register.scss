@@ -1,0 +1,14 @@
+@use './variables' as *;
+@use './Mixin.scss' as *;
+
+.register-container{
+  width: 25%;
+  margin: 50px auto ;
+  padding: 20px;
+  box-sizing: border-box;
+
+  h3 {
+    text-align: center;
+  }
+
+}
