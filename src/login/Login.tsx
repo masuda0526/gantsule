@@ -49,7 +49,7 @@ export const Login : React.FC = () => {
       userId:userId,
       password:pass
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       const data = res.data.data;
       dispatch(setLoginInfo({userId:data.userId, token:data.token}));
       go(`#/list?userId=${userId}`);

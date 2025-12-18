@@ -15,6 +15,7 @@ import { MODAL_INFO } from "../../constants/Modal";
 
 export const EditProjectModal : React.FC = () => {
   const project = useAppSelector(state => state.currentProject.currentProject);
+  const userId = useAppSelector(state => state.loginInfo.userId);
   const dispatch = useAppDispatch()
 
   const [localPjName, setLocalPjName] = useState<string>(project.name)
@@ -39,7 +40,7 @@ export const EditProjectModal : React.FC = () => {
         startDt:localStDt,
         endDt:localEdDt,
       },
-      userId:'u00001'
+      userId:userId
     }).then(res => {
       const data = res.data
       const isSucess:boolean = data.isSuccess;

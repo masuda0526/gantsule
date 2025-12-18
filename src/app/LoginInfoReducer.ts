@@ -19,7 +19,8 @@ const loginInfoSlicer = createSlice({
       state.token = action.payload.token;
     },
     logout(state){
-      state = initialState
+      state.token = null;
+      state.userId = null
     }
   }
 })

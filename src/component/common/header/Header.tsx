@@ -6,25 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { mobileWidth } from "../../../constants/Setting";
-import { useDispatch, useSelector } from "react-redux";
-import type { AppDispatch, RootState } from "../../../app/store";
-import { logout, setLoginInfo } from "../../../app/LoginInfoReducer";
-import { hide, show, startLoading } from "../../../app/ModalReducer";
-import { isLogin } from "../../../util/AuthUtil";
-import { go } from "../../../util/HashOperate";
+import { logout } from "../../../app/LoginInfoReducer";
+import { startLoading } from "../../../app/ModalReducer";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 
 const Header: React.FC = () => {
-  // test
+  // redux
   const dispatch = useAppDispatch();
   const userId = useAppSelector(state => state.loginInfo.userId);
-
-  // const handleLogin = ()=>{
-  //   dispatch(setLoginInfo({token:'aaa', userId:'u00001'}));
-  // }
-  // const handleLogout = () => {
-  //   dispatch(logout())
-  // }
 
   const handleClickAuth = () => {
     if(userId){
@@ -35,7 +24,7 @@ const Header: React.FC = () => {
   const showModal = () => {
     dispatch(startLoading())
   }
-  // test
+
   // モバイルの境界値
   const border = mobileWidth;
 
@@ -76,10 +65,12 @@ const Header: React.FC = () => {
       <nav className={isActiveMenu?"is-active":""}>
         <ul>
           <li><a href="#" onClick={handleClickMenu}>TOP</a></li>
-          <li><a href="#/list" onClick={handleClickMenu}>プロジェクト一覧</a></li>
-          <li><a href="#/chart" onClick={handleClickMenu}>ガントチャート</a></li>
+          {userId?(
+            <li><a href="#/list" onClick={handleClickMenu}>プロジェクト一覧</a></li>
+          ):''}
+          {/* <li><a href="#/chart" onClick={handleClickMenu}>ガントチャート</a></li> */}
           <li><a href="#/login" onClick={handleClickAuth}>{userId?'ログアウト':'ログイン'}</a></li>
-          <li onClick={showModal}>モーダル</li>
+          {/* <li onClick={showModal}>モーダル</li> */}
         </ul>
       </nav>
     </header>

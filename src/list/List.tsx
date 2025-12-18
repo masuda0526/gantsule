@@ -11,15 +11,13 @@ import { useAppDispatch, useAppSelector } from "../app/hook";
 import { endLoading, show, startLoading } from "../app/ModalReducer";
 import { MODAL_INFO } from "../constants/Modal";
 import { setProjectInfos } from "../app/ProjectInfosReducer";
-import { getParam } from "../util/HashOperate";
+import { go } from "../util/HashOperate";
 
 const List: React.FC = () => {
   // redux
   const dispatch = useAppDispatch();
   const projects = useAppSelector(state => state.projectInfos.projectInfos)
-
-  // const [projects, setProjects] = useState<Project[]>([])
-  const userId = getParam('userId');
+  const userId = useAppSelector(state => state.loginInfo.userId);
 
   const handleClick = () => {
     dispatch(show({ modalType: MODAL_INFO.NEW_PROJECT }))
@@ -27,6 +25,11 @@ const List: React.FC = () => {
 
   useEffect(() => {
     dispatch(startLoading())
+    if(!userId){
+      dispatch(endLoading());
+      go('/#/login');
+      return;
+    }
     const url = `${URL.GET_PROJECTS}?userId=${userId}`;
     axios.get(url)
       .then(res => {

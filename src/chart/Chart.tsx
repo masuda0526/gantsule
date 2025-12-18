@@ -19,6 +19,7 @@ import { ProjectArea } from "./ProjectArea";
 const Chart: React.FC = () => {
   // Redux
   const dispatch = useAppDispatch()
+  const loginUserId = useAppSelector(state => state.loginInfo.userId);
 
   // 前の月表示数
   const [beforeMonth, setBeforeMonth] = useState<number>(0);
@@ -46,7 +47,7 @@ const Chart: React.FC = () => {
 
   const getProjectInfo = () => {
     const pjId = getParam('projectId');
-    const userId = getParam('userId');
+    const userId = loginUserId?loginUserId:getParam('userId');
     axios.get(`${URL.GET_PROJECT}?projectId=${pjId}&userId=${userId}`)
     .then(res => {
       console.log(res.data);
