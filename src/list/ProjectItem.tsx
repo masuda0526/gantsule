@@ -1,7 +1,7 @@
 import type React from "react";
 import type Project from "../interface/Project";
 import { PROGRESS_STATUS } from "../constants/Status";
-import { go } from "../util/HashOperate";
+import { getParam, go } from "../util/HashOperate";
 import { useAppDispatch } from "../app/hook";
 import { startLoading } from "../app/ModalReducer";
 import { setProject } from "../app/CurrentProjectReducer";
@@ -10,7 +10,7 @@ const ProjectItem: React.FC<Project> = (project: Project) => {
   // redux
   const dispatch = useAppDispatch();
 
-  const userId = 'u00001';
+  const userId = getParam('userId');
   let taskCnt: number = 0;
   let doneCnt: number = 0;
   let trubleCnt: number = 0;

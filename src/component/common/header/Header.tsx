@@ -10,17 +10,26 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../app/store";
 import { logout, setLoginInfo } from "../../../app/LoginInfoReducer";
 import { hide, show, startLoading } from "../../../app/ModalReducer";
-import { MODAL_INFO } from "../../../constants/Modal";
+import { isLogin } from "../../../util/AuthUtil";
+import { go } from "../../../util/HashOperate";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
 
 const Header: React.FC = () => {
   // test
-  const isLogin = useSelector((state:RootState) => state.loginInfo.isLogin)
-  const dispatch = useDispatch<AppDispatch>();
-  const handleLogin = ()=>{
-    dispatch(setLoginInfo({isLogin:true, limitDt:'2025-11-12', token:'aaa', userId:'u00001'}));
-  }
-  const handleLogout = () => {
-    dispatch(logout())
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector(state => state.loginInfo.userId);
+
+  // const handleLogin = ()=>{
+  //   dispatch(setLoginInfo({token:'aaa', userId:'u00001'}));
+  // }
+  // const handleLogout = () => {
+  //   dispatch(logout())
+  // }
+
+  const handleClickAuth = () => {
+    if(userId){
+      dispatch(logout());
+    }
   }
 
   const showModal = () => {
@@ -69,7 +78,7 @@ const Header: React.FC = () => {
           <li><a href="#" onClick={handleClickMenu}>TOP</a></li>
           <li><a href="#/list" onClick={handleClickMenu}>プロジェクト一覧</a></li>
           <li><a href="#/chart" onClick={handleClickMenu}>ガントチャート</a></li>
-          {isLogin?(<li onClick={handleLogout}>ログイン中</li>):(<li onClick={handleLogin}>未ログイン</li>)}
+          <li><a href="#/login" onClick={handleClickAuth}>{userId?'ログアウト':'ログイン'}</a></li>
           <li onClick={showModal}>モーダル</li>
         </ul>
       </nav>

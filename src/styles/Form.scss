@@ -35,6 +35,12 @@
   padding: 5px 10px;
   border-radius: 3px;
   border: none;
+  &:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    opacity: 0.8;
+    transition: all 0.5s;
+  }
 
   &.btn_primary {
     background-color: $primary-color;
@@ -43,5 +49,20 @@
 
   &.btn_blue {
     background-color: #559cf3;
+  }
+
+
+}
+
+.linkbtn{
+  text-decoration: underline;
+  border: none;
+  padding: 0;
+  color: #559cf3;
+  background: none;
+
+  &:hover{
+    cursor: pointer;
+    color: #90baed;
   }
 }

@@ -8,6 +8,9 @@ import { ValidationContext } from "../../util/validation/ValidationContext";
 import { addSubjectsValidator } from "../../util/validation/unique/ProjectValidation";
 import axios from "axios";
 import { URL } from "../../constants/Url";
+import type Subject from "../../interface/Subject";
+import { endLoading, startLoading } from "../../app/ModalReducer";
+import type { ErrorInfo } from "../../util/validation/ValidationTypes";
 
 export const EditToggleBtn: React.FC = () => {
   // redux
@@ -22,6 +25,7 @@ export const EditToggleBtn: React.FC = () => {
 
   // 編集モード切り替え
   const handleClick = () => {
+    dispatch(startLoading());
     if (isEdit) {
       subjects.forEach(sj => {
         const statusItem = checkStatusUnderTasks(sj.tasks);
@@ -41,11 +45,23 @@ export const EditToggleBtn: React.FC = () => {
       axios.post(URL.POST_EDIT_SUBJECT, project)
       .then(res => {
         console.log(res.data);
+        const data = res.data.data;
+        if(res.data.isSuccess){
+          const subjects = data.subjects as Subject[]
+          subjects.forEach(sj => {
+            dispatch(updateSubject({subject:sj}));
+          })
+        }else{
+          const errors = res.data.errors as ErrorInfo[];
+          const l = errors.map(e => e.message);
+          alert(l.join('\n'))
+        }
       }).catch(error => {
         console.log(error);
       })
     }
     dispatch(toggleEditMode());
+    dispatch(endLoading());
   }
   
   return (

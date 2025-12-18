@@ -35,7 +35,7 @@ const List: React.FC = () => {
         console.log(err);
       })
     dispatch(endLoading());
-  }, [])
+  }, [userId])
 
   return (
     <>

@@ -46,20 +46,21 @@ const Chart: React.FC = () => {
 
   const getProjectInfo = () => {
     const pjId = getParam('projectId');
-    
-    axios.get(`${URL.GET_PROJECT}?projectId=${pjId}`)
+    const userId = getParam('userId');
+    axios.get(`${URL.GET_PROJECT}?projectId=${pjId}&userId=${userId}`)
     .then(res => {
+      console.log(res.data);
       const isSuccess = res.data.isSuccess as boolean;
       if(isSuccess){
         const subjects = res.data.data.projectData as Subject[];
         dispatch(setSubjects({subjects}));
         dispatch(endLoading());
       }else{
-        // goError('取得失敗');
+        goError('取得失敗');
       }
     }).catch(error=> {
       console.log(error);
-      // goError('接続エラー');
+      goError('接続エラー');
     })
   }
 
