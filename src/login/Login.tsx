@@ -14,6 +14,9 @@ import { ValidationBuilder } from "../util/validation/ValidationBuilder";
 import { api, type ApiResponse } from "../util/AxiosUtil";
 import { endLoading, startLoading } from "../app/ModalReducer";
 import { setLoginInfo } from "../app/LoginInfoReducer";
+import { Errors } from "../component/common/Errors/Errors";
+import { addErrors } from "../component/common/Errors/ErrorUtil";
+import { resetErrors } from "../app/ErrorReducer";
 
 type ResponseType = {
   token:string;
@@ -32,6 +35,7 @@ export const Login : React.FC = () => {
   const login = () => {
     // ローディング画面
     dispatch(startLoading());
+    dispatch(resetErrors());
 
     // バリデーション
     const v = new ValidationContext();
@@ -39,7 +43,8 @@ export const Login : React.FC = () => {
     v.add(new ValidationBuilder('pass', pass, 'パスワード').require());
     v.validate(false);
     if(v.isError()){
-      alert(v.getErrorMsgsForAlert());
+      addErrors(v.errors);
+      // alert(v.getErrorMsgsForAlert());
       dispatch(endLoading());
       return;
     }
@@ -50,9 +55,11 @@ export const Login : React.FC = () => {
       password:pass
     }).then((res) => {
       // console.log(res.data);
-      const data = res.data.data;
-      dispatch(setLoginInfo({userId:data.userId, token:data.token}));
-      go(`#/list?userId=${userId}`);
+      if(res.data.isSuccess){
+        const data = res.data.data;
+        dispatch(setLoginInfo({userId:data.userId, token:data.token}));
+        go(`#/list?userId=${userId}`);
+      }
     }).catch(err => {
       console.log('エラー')
       console.log(err);
@@ -68,6 +75,7 @@ export const Login : React.FC = () => {
 
   return (
     <div className="login-container">
+      <Errors></Errors>
       <h3>ログイン</h3>
       <TextInput title="ユーザーID" field="userId" value={userId} onChange={changeUserId} option={{validRules:'require'}}></TextInput>
       <PassInput title="パスワード" field="pass" value={pass} onChange={changePass} option={{validRules:'require'}}></PassInput>

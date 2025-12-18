@@ -11,10 +11,13 @@ import { endLoading, startLoading } from "../app/ModalReducer";
 import axios from "axios";
 import { URL } from "../constants/Url";
 import { go, goError } from "../util/HashOperate";
+import { resetErrors, setErrors } from "../app/ErrorReducer";
+import { Errors } from "../component/common/Errors/Errors";
 
 export const Register:React.FC = () => {
   // redux
   const dispatch = useAppDispatch();
+  dispatch(resetErrors());
 
   // 状態管理
   const [userId, setUserId] = useState<string>('');
@@ -35,6 +38,7 @@ export const Register:React.FC = () => {
   // クリックイベント
   const regist = () => {
     dispatch(startLoading())
+    dispatch(resetErrors());
     const v = new ValidationContext();
     v.add(new ValidationBuilder('userId', userId, 'ユーザーID').require().txtbetween(5, 20))
     v.add(new ValidationBuilder('name', name, '利用者名').require().txtmax(20));
@@ -43,14 +47,14 @@ export const Register:React.FC = () => {
     v.add(new ValidationBuilder('repassword', rePassword, '確認用パスワード').require().txtbetween(8, 20));
     v.validate(false);
     if(v.isError()){
-      alert(v.getErrorMsgsForAlert());
+      dispatch(setErrors({errors:v.errors}))
       dispatch(endLoading())
       return 
     }
 
     // パスワード一致チェック
     if(password !== rePassword){
-      alert('パスワードと確認用パスワードが一致しません。');
+      dispatch(setErrors({errors:[{field:'password', message:'パスワードと確認用パスワードが一致しません。'}]}))
       dispatch(endLoading());
       return 
     }
@@ -80,6 +84,7 @@ export const Register:React.FC = () => {
 
   return (
     <div className="register-container">
+      <Errors></Errors>
       <h3>新規登録</h3>
       <TextInput title="ユーザーID" field="userId" value={userId} onChange={changeUserId} option={{validRules:'require|txtbetween:5:20'}}></TextInput>
       <TextInput title='利用者名' field="name" value={name} onChange={changeName} option={{validRules:'require|txtmax:20'}}></TextInput>

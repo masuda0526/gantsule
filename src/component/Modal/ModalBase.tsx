@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../app/hook";
 import { hide } from "../../app/ModalReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { resetErrors } from "../../app/ErrorReducer";
 
 type modalOption = {
   closeBtn?:boolean;
@@ -17,6 +18,7 @@ export const ModalBase:React.FC<{children:React.ReactNode, title:string, option?
   } = option ||{};
   const dispatch = useAppDispatch();
     const clickClose = () => {
+      dispatch(resetErrors());
       dispatch(hide())
     }
   return (

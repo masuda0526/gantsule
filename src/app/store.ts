@@ -3,13 +3,15 @@ import LoginInfoReducer from './LoginInfoReducer';
 import CurrentProjectReducer from './CurrentProjectReducer';
 import ModalInfoReducer from './ModalReducer';
 import ProjectInfosReducer from './ProjectInfosReducer'
+import ErrorReducer from './ErrorReducer'
 
 export const store = configureStore({
   reducer:{
     loginInfo:LoginInfoReducer,
     currentProject:CurrentProjectReducer,
     modalInfo:ModalInfoReducer,
-    projectInfos:ProjectInfosReducer
+    projectInfos:ProjectInfosReducer,
+    errorStore:ErrorReducer
   }
 })
 

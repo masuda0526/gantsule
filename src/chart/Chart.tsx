@@ -50,7 +50,6 @@ const Chart: React.FC = () => {
     const userId = loginUserId?loginUserId:getParam('userId');
     axios.get(`${URL.GET_PROJECT}?projectId=${pjId}&userId=${userId}`)
     .then(res => {
-      console.log(res.data);
       const isSuccess = res.data.isSuccess as boolean;
       if(isSuccess){
         const subjects = res.data.data.projectData as Subject[];

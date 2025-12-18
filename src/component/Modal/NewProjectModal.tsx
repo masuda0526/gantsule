@@ -1,24 +1,26 @@
 import type React from "react";
 import { ModalBase } from "./ModalBase";
 import { TextInput } from "../Form/TextInput";
-import { useAppDispatch } from "../../app/hook";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { ButtonArea } from "../Form/ButtonArea";
 import { Button } from "../Form/Button";
 import { useState } from "react";
-import axios from "axios";
 import { URL } from "../../constants/Url";
-import { hide, show, startLoading } from "../../app/ModalReducer";
-import type { ErrorInfo } from "../../util/validation/ValidationTypes";
+import { hide, show } from "../../app/ModalReducer";
 import { MODAL_INFO } from "../../constants/Modal";
 import { ValidationContext } from "../../util/validation/ValidationContext";
 import { ValidationBuilder } from "../../util/validation/ValidationBuilder";
 import { setProjectInfos } from "../../app/ProjectInfosReducer";
 import type Project from "../../interface/Project";
-import { getParam } from "../../util/HashOperate";
+import { addErrors } from "../common/Errors/ErrorUtil";
+import { Errors } from "../common/Errors/Errors";
+import { resetErrors } from "../../app/ErrorReducer";
+import { api } from "../../util/AxiosUtil";
 
 
 export const NewProjectModal: React.FC = () => {
   const dispatch = useAppDispatch()
+  const userId = useAppSelector(state => state.loginInfo.userId);
 
   const [localPjName, setLocalPjName] = useState<string>('')
   const changeLocalPjName = (e: React.ChangeEvent<HTMLInputElement>) => { setLocalPjName(e.target.value) }
@@ -39,7 +41,7 @@ export const NewProjectModal: React.FC = () => {
     const tmpEdDt = localEdDt
     const tmpClient = localClient
 
-    dispatch(startLoading())
+    dispatch(resetErrors());
 
     // バリデーション
     const v = new ValidationContext();
@@ -49,14 +51,14 @@ export const NewProjectModal: React.FC = () => {
     v.add(new ValidationBuilder('client', localClient, '依頼者').require().txtmax(30));
     v.validate(false);
     if(v.isError()){
-      alert(v.getErrorMsgsForAlert());
+      addErrors(v.errors);
       dispatch(show({modalType:MODAL_INFO.NEW_PROJECT}));
       return;
     }
 
     // 登録
-    await axios.post(URL.POST_NEW_PROJECT, {
-      userId: getParam('userId'),
+    await api.post(URL.POST_NEW_PROJECT, {
+      userId: userId,
       name: localPjName,
       client: localClient,
       startDt: localStDt,
@@ -66,23 +68,14 @@ export const NewProjectModal: React.FC = () => {
       const isSucess: boolean = data.isSuccess;
       // 成功
       if (isSucess) {
-        const successMessages: string[] = data.flashMsgs;
-        alert(successMessages.join('¥n'));
+        // const successMessages: string[] = data.flashMsgs;
+        // alert(successMessages.join('¥n'));
         dispatch(setProjectInfos({projectInfos:data.data.projects as Project[]}))
         dispatch(hide());
         return;
-      } else {
-        // 失敗
-        const errors: ErrorInfo[] = data.errors;
-        const msgs: string[] = errors.map(e => {
-          return e.message
-        });
-        alert(msgs.join('¥n'));
-        dispatch(show({ modalType: MODAL_INFO.NEW_PROJECT }))
-      }
+      } 
     }).catch(error => {
       console.log(error);
-      dispatch(show({ modalType: MODAL_INFO.NEW_PROJECT }))
     })
     // 失敗時に復元
     setLocalClient(tmpClient)
@@ -93,6 +86,7 @@ export const NewProjectModal: React.FC = () => {
 
   return (
     <ModalBase title="新規プロジェクトを追加">
+      <Errors></Errors>
       <div>
         <TextInput
           title="プロジェクト名"

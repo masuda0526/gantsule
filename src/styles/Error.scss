@@ -1,0 +1,25 @@
+@use './variables' as *;
+@use './Mixin.scss' as *;
+
+.error-container {
+  padding: 20px 0;
+}
+
+.error-box {
+  padding: 10px 5px;
+  background-color: #ffebeb;
+  border-left: solid 2px $probrem-color;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.error-msg {
+  list-style-position: inside;
+  color: $probrem-color;
+  font-size: 12px;
+  margin-bottom: 5px;
+  
+  &:last-child{
+    margin-bottom: 0;
+  }
+}

@@ -1,6 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import type { ErrorInfo } from "./validation/ValidationTypes";
 import { go } from "./HashOperate";
+import { addErrors } from "../component/common/Errors/ErrorUtil";
 
 export type ApiResponse<T=unknown> = {
   isSuccess:boolean;
@@ -17,11 +18,11 @@ api.interceptors.response.use(
     if(!data.isSuccess){
       console.log('サーバーエラー')
       console.log(data.errors);
+      addErrors(data.errors)
       if(data.isRedirect){
         const url = data.redirectUrl?data.redirectUrl:'/';
         go(url);
-      }
-      // エラーを表示する処理
+      }      
     }
     return res;
   },

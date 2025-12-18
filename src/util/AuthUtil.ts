@@ -6,3 +6,4 @@ export const isLogin = () => {
   const userId = state.loginInfo.userId;
   return token !==null && userId !==null;
 }
+

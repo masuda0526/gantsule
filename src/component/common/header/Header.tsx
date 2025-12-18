@@ -7,8 +7,8 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { mobileWidth } from "../../../constants/Setting";
 import { logout } from "../../../app/LoginInfoReducer";
-import { startLoading } from "../../../app/ModalReducer";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
+import { resetErrors } from "../../../app/ErrorReducer";
 
 const Header: React.FC = () => {
   // redux
@@ -16,13 +16,12 @@ const Header: React.FC = () => {
   const userId = useAppSelector(state => state.loginInfo.userId);
 
   const handleClickAuth = () => {
+    dispatch(resetErrors());
     if(userId){
-      dispatch(logout());
+      if(confirm('ログアウトしてもよろしいですか？')){
+        dispatch(logout());
+      }
     }
-  }
-
-  const showModal = () => {
-    dispatch(startLoading())
   }
 
   // モバイルの境界値
@@ -53,6 +52,7 @@ const Header: React.FC = () => {
   }
 
   const handleClickMenu = () => {
+    dispatch(resetErrors());
     setIsActiveMenu(false);
   }
 
